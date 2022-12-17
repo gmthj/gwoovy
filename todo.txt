@@ -1,0 +1,262 @@
+0 1 2 3 4 5 6 7 8 9
+
+
+
+SLASH done
+ping
+help
+join
+leave
+play
+
+
+
+
+
+
+spotify search, artists as list then combine
+search soundcloud first instaead of yt for music
+
+queue obj
+
+
+bot got kicked reporting
+rename bot to current track
+
+
+change save queue to anyone
+load from anyone
+
+
+https://www.youtube.com/watch?v=owrhKIN3Y90&list=PLu5_j_8_fpMgJEFl5xcLX0suUSrVz1yRq&index=12
+process out playlist part
+
+
+
+
+
+
+
+
+
+store
+- guild
+- text channel
+- voice channel
+
+type: radio youtbe spotify file soundcloud
+thumbnail
+captions
+
+caotion vids  - json3
+# https://youtu.be/66ySm0B4OHk
+# https://youtu.be/aBTH6D0UL-Q
+
+
+
+radio
+class 95
+http://208.80.54.32:3690/CLASS95_PREM_SC
+
+987
+https://19183.live.streamtheworld.com/987FM_PREM.aac
+
+gold 905
+https://22393.live.streamtheworld.com/GOLD905AAC.aac
+
+kiss 92
+https://22283.live.streamtheworld.com/KISS_92AAC.aac
+
+SYMPHONY924
+http://208.80.54.32:3690/SYMPHONY924_PREM_SC
+
+https://onlineradiobox.com/sg/kiss92/playlist/
+
+
+rename to current playing
+@client.command()
+async def rename(ctx, name):
+    await ctx.guild.me.edit(nick=name)
+
+sutoplay - auto add new song suggestion
+
+
+seek to
+restart
+
+loop queue
+
+##saved queues
+rename
+delete
+duplicate detection
+
+volume
+
+audio mixing/manipulation
+
+
+https://github.com/FFmpeg/FFmpeg.git
+
+buildpacks
+https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git
+https://github.com/xrisk/heroku-opus.git
+https://github.com/jontewks/puppeteer-heroku-buildpack
+heroku/python
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+┗
+┣
+🔀 Shuffle Tracks Button
+🔁 Repeat Button
+🔂 Repeat Single Button
+▶️ Play Button
+⏩ Fast-Forward Button
+⏭️ Next Track Button
+⏯️ Play or Pause Button
+◀️ Reverse Button
+⏪ Fast Reverse Button
+⏮️ Last Track Button
+🔼 Upwards Button
+⏫ Fast Up Button
+🔽 Downwards Button
+⏬ Fast Down Button
+⏸️ Pause Button
+⏹️ Stop Button
+⏺️ Record Button
+⏏️ Eject Button
+
+YouTube (videos, playlists, mixes)
+Spotify (tracks, playlists, albums, artists)*
+Soundcloud (tracks, sets)
+Deezer (tracks, playlists, albums)*
+Apple Music (tracks, playlists, albums, artists)*
+Twitch (streams)
+TIDAL (tracks, playlists, albums, artists)*
+Mixer (streams)
+Vimeo
+Bandcamp
+Clyp
+BandLab (Posts, Songs, Collections)
+Smule
+Message attachments
+Direct audio files
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Embed limits
++-------------+------------------------+
+|    Field    |         Limit          |
++-------------+------------------------+
+| title       | 256 characters         |
+| description | 4096 characters*       |
+| fields      | Up to 25 field objects |
+| field.name  | 256 characters         |
+| field.value | 1024 characters        |
+| footer.text | 2048 characters        |
+| author.name | 256 characters         |
++-------------+------------------------+
+
+def check_yesno(msg):
+    return msg.author == ctx.author and str(msg.channel.type) == 'private' and msg.content.lower() in ['yes', 'no']
+try:
+    msg = await client.wait_for("message", check=check_yesno, timeout=90)
+    confirmation = msg.content.lower()
+except asyncio.TimeoutError:
+    await ctx.author.send('Login cancelled: timeout; no confirmation given')
+    return None
+else:
+    if confirmation == 'yes':
+        try_login = False
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+@client.command(aliases=['ro', 'll', 'wa'])
+async def roll(ctx, a=None):
+    if not togglebotstate:
+        await ctx.send(f'{togglebotmessage}')
+        return
+    if ctx.channel.id == control_room_id:
+        ctx.guild = client.get_guild(leechid)
+    try:
+        guildid = str(ctx.guild.id)
+        await ctx.send('hello', file=pic, embed=embed)
+    except Exception as e:
+        print(e)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+@client.command(aliases=['p'])
+async def play(ctx, url):
+    YDL_OPTIONS = {'format': 'bestaudio/best', 'noplaylist':'True'}
+
+    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+    voice = get(client.voice_clients, guild=ctx.guild)
+
+    with YoutubeDL(YDL_OPTIONS) as ydl:
+          info = ydl.extract_info(url, download=False)
+          I_URL = info['formats'][0]['url']
+          source = await discord.FFmpegOpusAudio.from_probe(I_URL, **FFMPEG_OPTIONS)
+          voice.play(source)
+          voice.is_playing()
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+https://groovy.zendesk.com/hc/en-us/articles/360030600932-Groovy-is-playing-the-wrong-song-when-I-play-from-Spotify
+
+Groovy is playing the wrong song when I play from Spotify
+(or: How Groovy plays music from Spotify, Apple Music, Deezer, ...)
+
+
+When you queue a song from Spotify, or any other proprietary platform, like Apple Music, Deezer, or Tidal, a lot of things happen behind the scenes.
+
+TL;DR: we throw the metadata into YouTube.
+
+Since these platforms don't let us directly stream from them, as opposed to alternatives, like SoundCloud, we found another way to still provide you with music, when you queue a track, playlist, or even artist page from Spotify. But how does it work?
+
+This is a three-step process. For the sake of making an example, we're going to use Spotify throughout this article. Though, this works the same for all other proprietary platforms like Apple Music, Deezer, or Tidal.
+
+Step 1: Getting the track data from Spotify
+When you play a link, and we detect that it's from Spotify, our Spotify Integration queries the Spotify API, i.e. asks Spotify what's behind that link. For a track, that might be title and artist, while for an album or a playlist it's a list of those.
+
+Step 2: Throwing all of that into YouTube
+While Spotify doesn't let you directly stream audio, YouTube does! So we just query YouTube using the metadata (fancy name for the whole set of artist, title, etc.) and some special secret sauce and get the closest equivalent to the track you entered.
+
+Step 3: Playing that in your voice channel
+Now, this is the part that overlaps with any normal YouTube track. Taking the audio, process it if you have a volume or any audio effects set, and then handing it to Discord for you to listen to.
+This step is also the reason our volume command is limited to premium: without it, we wouldn't need to process the audio (which takes like 100x the resources of just piping it into Discord). Volume 100 gives you the original audio exactly the way we get it from YouTube (yeah, sadly that's usually very loud).
+
+
+
+Now that you know how we play from Spotify, why not try it out? Just -play and link from Spotify or visit this article for more help.
+
+
+youtube-dl==2021.6.6
+yt-dlp
+
+cp run.sh botthing3-music/
+
+# os.environ["DEBUSSY"] = "1"
+dos2unix
+
+ps aux | grep python
+kill 4123
+./runnohup.sh
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+LINUX SET ENVIRONMENT VARIABLE
+
+==> set env var
+[VARIABLE_NAME]=[variable_value]
+
+==> check env var
+printenv | grep [VARIABLE_NAME]
+
+==> set persistent env var
+sudo nano ~/.bashrc
+export [VARIABLE_NAME]=[variable_value]
+
+==> persistent env var applied only after shell restart - run this to apply changes now
+source ~/.bashrc
+
+==> unset env var
+unset [VARIABLE_NAME]
